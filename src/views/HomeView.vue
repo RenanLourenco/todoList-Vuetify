@@ -17,7 +17,7 @@
     </v-btn>
 
     <v-btn fab depressed x-small dark color="purple" class="ma-1">
-      <v-icon x-small>mdi-heart</v-icon>
+      <v-icon small>mdi-heart</v-icon>
     </v-btn>
 
   </div>
