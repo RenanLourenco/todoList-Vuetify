@@ -1,9 +1,7 @@
 <template>
-  <div class="home">
+  <div class="dashboard">
     <h1>Homepage</h1>
-      
-
-
+  
   </div>
 </template>
 
