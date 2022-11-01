@@ -16,6 +16,14 @@
             </v-toolbar>
 
             <v-navigation-drawer v-model="drawer" app dark class="primary">
+                <v-row class="mt-5" justify="center">
+                    <v-avatar size="100">
+                        <img src="/71199525.jpg" alt="">
+                    </v-avatar>
+                </v-row>
+                <v-row justify="center">
+                    <p class="white--text subheading mt-1">Renan Lourenço</p>
+                </v-row>
                 <v-list>
                     <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
                         <v-list-item-action>

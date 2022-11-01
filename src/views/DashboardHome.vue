@@ -34,7 +34,7 @@
             <div>{{project.titulo}}</div>
           </v-col>
           <v-col cols="12" sm="4" md="2">
-            <div class="caption grey--text">Project Title</div>
+            <div class="caption grey--text">Responsible</div>
             <div>{{project.responsavel}}</div>
           </v-col>
           <v-col cols="12" sm="4" md="2">
