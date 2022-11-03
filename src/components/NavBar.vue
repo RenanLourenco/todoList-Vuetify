@@ -55,6 +55,9 @@
                 <v-row justify="center">
                     <p class="white--text subheading mt-1">Renan Lourenço</p>
                 </v-row>
+                <v-row class="mt-5 mb-3" justify="center">
+                    <PopUp />
+                </v-row>
                 <v-list>
                     <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
                         <v-list-item-action>
@@ -70,8 +73,11 @@
         </nav>
 </template>
 <script>
+import PopUp from './PopUp'
+
 export default {
-    data(){
+    components:  { PopUp } ,
+    data(){ 
         return{
             drawer:true,
             links:[

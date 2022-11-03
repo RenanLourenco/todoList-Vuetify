@@ -56,22 +56,19 @@
 </template>
 
 <script>
+
+  import lib from '../libraries/projects'
   export default {
     data(){
       return{
-        projects: [ 
-          {titulo:'Design a new website', responsavel:'The net ninja',prazo:'1 de janeiro de 2023', status:'Desenvolvendo'},
-          {titulo:'Code up the homepage', responsavel:'Renan Lourenço',prazo:'2 de janeiro de 2023', status:'Iniciar'},
-          {titulo:'Design video thumbnails', responsavel:'Renan Lourenço',prazo:'3 de janeiro de 2023', status:'Atrasado'},
-          {titulo:'Create a community forum', responsavel:'Renan Lourenço',prazo:'4 de janeiro de 2023', status:'Completo'},
-        ]
+        projects: lib.projects
       }
     },
     
     methods:{
       sortBy(prop){
         this.projects.sort((a,b)=>a[prop] < b[prop] ? -1 : 1)
-      }
+      },
     }
   }
 </script>
