@@ -5,16 +5,16 @@
       <v-expansion-panels>
         <v-expansion-panel
         v-for="project in myProjects"
-        :key="project.titulo"
+        :key="project.title"
         >
             <v-expansion-panel-header>
-              {{project.titulo}}
+              {{project.title}}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-card>
                 <v-card-text class="px-4 grey--text">
-              <div class="font-weight-bold">due by {{project.responsavel}}</div>
-              <div>info</div>
+              <div class="font-weight-bold">due by {{project.responsible}}</div>
+              <div>{{project.content}}</div>
               </v-card-text>
             </v-card>
             </v-expansion-panel-content>
@@ -26,22 +26,35 @@
 
 <script>
 
-import lib from '../libraries/projects'
+import db from '@/fb'
 
 export default{
   data(){
     return{
-      lib
+      projects: []
     }
   },
   computed:{
     myProjects(){
-      let projects = this.lib.projects
-      return projects.filter(project => {
-        return project.responsavel === 'Renan Lourenço'
+      return this.projects.filter(project => {
+        return project.responsible === 'Renan Lourenço'
       })
     }
-  }
+  },
+  created() {
+      db.collection('projects').onSnapshot((res)=>{
+        const changes = res.docChanges()
+
+        changes.forEach(change => {
+          if(change.type === 'added'){
+            this.projects.push({
+              ...change.doc.data(),
+              id: change.doc.id
+            })
+          }
+        })
+      })
+    }
 }
 
 

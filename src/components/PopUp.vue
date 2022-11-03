@@ -61,6 +61,7 @@ export default{
             db.collection('projects').add(project).then(()=>{
                 this.loading = false
                 this.dialog = false
+                this.$emit('projectAdded')
             })
 
             // this.projects.push({titulo:this.title,responsavel:this.responsible,prazo:this.formattedDate,status:'Iniciar'})

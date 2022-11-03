@@ -31,15 +31,15 @@
         <v-row wrap :class="`project ${project.status}`">
           <v-col cols="12" sm="12" md="6">
             <div class="caption grey--text">Project Title</div>
-            <div>{{project.titulo}}</div>
+            <div>{{project.title}}</div>
           </v-col>
           <v-col cols="12" sm="4" md="2">
             <div class="caption grey--text">Responsible</div>
-            <div>{{project.responsavel}}</div>
+            <div>{{project.responsible}}</div>
           </v-col>
           <v-col cols="12" sm="4" md="2">
             <div class="caption grey--text">Due by</div>
-            <div>{{project.prazo}}</div>
+            <div>{{project.due}}</div>
           </v-col>
           <v-col cols="12" sm="4" md="2">
             <div>
@@ -56,12 +56,12 @@
 </template>
 
 <script>
-
-  import lib from '../libraries/projects'
+  import db from '@/fb'
+  
   export default {
     data(){
       return{
-        projects: lib.projects
+        projects: []
       }
     },
     
@@ -69,6 +69,22 @@
       sortBy(prop){
         this.projects.sort((a,b)=>a[prop] < b[prop] ? -1 : 1)
       },
+
+    },
+    created() {
+      db.collection('projects').onSnapshot((res)=>{
+        const changes = res.docChanges()
+
+        changes.forEach(change => {
+          if(change.type === 'added'){
+            this.projects.push({
+              ...change.doc.data(),
+              id: change.doc.id
+            
+            })
+          }
+        })
+      })
     }
   }
 </script>
