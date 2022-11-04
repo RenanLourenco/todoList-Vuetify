@@ -7,7 +7,7 @@
       <v-row class="mb-3">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-        <v-btn small plain color="grey" @click="sortBy('titulo')" v-bind="attrs" v-on="on">
+        <v-btn small plain color="grey" @click="sortBy('title')" v-bind="attrs" v-on="on">
           <v-icon left small>mdi-folder</v-icon>
           <span class="caption text-lowercase">By Project Name</span>
         </v-btn>
@@ -16,7 +16,7 @@
         </v-tooltip>
         <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-        <v-btn small plain color="grey" @click="sortBy('responsavel')" v-bind="attrs" v-on="on">
+        <v-btn small plain color="grey" @click="sortBy('responsible')" v-bind="attrs" v-on="on">
           <v-icon left small>mdi-human</v-icon>
           <span class="caption text-lowercase">By Person </span>
         </v-btn>
@@ -27,7 +27,7 @@
       </v-row>
 
       
-      <v-card v-for="project in projects" :key="project.titulo" flat class="pa-3">
+      <v-card v-for=" (project,index) in projects" :key="project.titulo" flat class="pa-3">
         <v-row wrap :class="`project ${project.status}`">
           <v-col cols="12" sm="12" md="6">
             <div class="caption grey--text">Project Title</div>
@@ -44,24 +44,43 @@
           <v-col cols="12" sm="4" md="2">
             <div>
               <v-chip :class="`${project.status} white--text caption my-2`">{{project.status}}</v-chip>
+              
+              
+                <v-dialog v-model="dialog" width="500">
+                  <template v-slot:activator="{on,attrs}">
+                  
+                    <v-chip class="mx-2" small v-bind="attrs" v-on="on"><v-icon small>mdi-pencil</v-icon>
+                    </v-chip>
+                    
+                  </template>
+                  <v-card>
+                    <v-card-title class="text h5 grey lighten-2">Edit status</v-card-title>
+                    <v-form class="px-3" ref="form">
+                      <v-select v-model="select" :items="items" item-text="status" item-value="abbr" label="Status"  single-line></v-select>
+                      <v-btn plain id="submit-btn" class="mb-3 white--text caption" @click="project.status=select, dialog = false, indices.push(index),submit()">Edit</v-btn>
+                    </v-form>
+                    
+                  </v-card>
+              </v-dialog>
+                
             </div>
           </v-col>
         </v-row>
         <v-divider></v-divider>
       </v-card>
-      
-
     </v-container>  
   </div>
 </template>
 
 <script>
   import db from '@/fb'
-  
   export default {
     data(){
       return{
-        projects: []
+        projects: [],
+        indices:[],
+        status:null,
+        items:['Completo','Desenvolvendo','Iniciar','Atrasado','Completo','Desenvolvendo','Atrasado','Iniciar']
       }
     },
     
@@ -69,7 +88,26 @@
       sortBy(prop){
         this.projects.sort((a,b)=>a[prop] < b[prop] ? -1 : 1)
       },
+      submit(){
+        var index = this.indices[this.indices.length - 1]
+        var project = this.projects[index]
+        db.collection('projects').doc(project.id).update({status:project.status})
+        
+      }
+      
+        
+      //   var docRef = db.collection("projects").where("title", "==", project.title)
 
+      //   docRef.get().then((doc) => {
+      //     if (doc.exists) {
+      //     console.log("Document data:", doc.data());
+      //     } else {
+      //     // doc.data() will be undefined in this case
+      //     console.log("No such document!");
+      //     }
+      //     }).catch((error) => {
+      //         console.log("Error getting document:", error);
+      //     });
     },
     created() {
       db.collection('projects').onSnapshot((res)=>{
@@ -85,7 +123,7 @@
           }
         })
       })
-    }
+    },
   }
 </script>
 
@@ -117,5 +155,8 @@
   }
   .v-chip.Iniciar{
     background: #0ff52d !important;
+  }
+  #submit-btn{
+    background: #0ff52d;
   }
 </style>
