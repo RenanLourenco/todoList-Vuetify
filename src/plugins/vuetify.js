@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
+import {firestorePlugin} from 'vuefire'
 
-Vue.use(Vuetify,{
+
+
+Vue.use(Vuetify,firestorePlugin,{
     theme:{
         primary:'#9652ff',
         success:'#3cd1c2',

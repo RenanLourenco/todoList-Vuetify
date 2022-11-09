@@ -61,7 +61,7 @@
                     </v-avatar>
                 </v-row>
                 <v-row justify="center">
-                    <p class="white--text subheading mt-1">Renan Lourenço</p>
+                    <p class="white--text subheading mt-1">{{name}}</p>
                 </v-row>
                 <v-row class="mt-5 mb-3" justify="center">
                     <PopUp @projectAdded="snackbar=true" />
@@ -82,6 +82,7 @@
 </template>
 <script>
 import PopUp from './PopUp'
+import db from '@/fb'
 
 export default {
     components:  { PopUp } ,
@@ -93,8 +94,16 @@ export default {
                 { icon:'folder', text:'My Projects', route:'/projects' },
                 { icon:'account', text:'Team', route:'/team' },
             ],
-            snackbar:false
+            snackbar:false,
+            name:'',
         }
     },
+    created:{
+        userLogged(){
+            var user = this.$store.getters.getUser
+            const res = db.collection("users").where("email","==",user.uid)
+            return this.name = res.name
+        }
+    }
 }
 </script>
